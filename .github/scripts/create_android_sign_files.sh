@@ -18,7 +18,8 @@ function create_android_sign_files() {
 
   property_file=".jks/android_key_${environment}.properties"
   echo "storeFile=../../${store_file}" > "${property_file}"
-  { echo "storePassword=${store_pass}"; echo "keyAlias=${key_alias}"; echo "keyPassword=${key_pass}"; } >> "${property_file}"
+  { echo "storePassword=${store_pass}"; echo "keyAlias=${key_alias}"; echo "keyPassword=${key_pass}"; } \
+    >> "${property_file}"
 
   openssl aes-256-cbc -e -in "${property_file}" -out "${property_file}.ciphered" -k "${CIPHER_KEY}" -md md5
 
@@ -26,7 +27,7 @@ function create_android_sign_files() {
 }
 
 function create_random_passwd() {
-  echo $(openssl rand -base64 "${1}")
+  openssl rand -base64 "${1}"
 }
 
 create_android_sign_files 'development'
